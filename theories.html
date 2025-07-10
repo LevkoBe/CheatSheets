@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graph Theory Theorems & Proofs</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+      body {
+        font-family: "Times New Roman", serif;
+        font-size: 11px;
+        line-height: 1.3;
+        margin: 0;
+        padding: 10px;
+        background: #f8f9fa;
+        color: #333;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      .section {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .section h2 {
+        background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+        color: white;
+        margin: -12px -12px 8px -12px;
+        padding: 8px 12px;
+        border-radius: 8px 8px 0 0;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .section.with-proofs h2 {
+        background: linear-gradient(135deg, #38a169 0%, #2d5016 100%);
+      }
+      .section h3 {
+        color: #4a5568;
+        font-size: 12px;
+        margin: 12px 0 6px 0;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 2px;
+      }
+      .theorem {
+        background: #fff5f5;
+        border: 1px solid #feb2b2;
+        border-radius: 6px;
+        padding: 8px;
+        margin: 8px 0;
+      }
+      .theorem-title {
+        font-weight: bold;
+        color: #c53030;
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+      .theorem-content {
+        font-size: 11px;
+        line-height: 1.4;
+      }
+      .proof {
+        background: #f0fff4;
+        border: 1px solid #9ae6b4;
+        border-radius: 6px;
+        padding: 8px;
+        margin: 8px 0;
+      }
+      .proof-title {
+        font-weight: bold;
+        color: #2d5016;
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+      .proof-content {
+        font-size: 11px;
+        line-height: 1.4;
+      }
+      .construction {
+        background: #fffbeb;
+        border: 1px solid #f6e05e;
+        border-radius: 6px;
+        padding: 8px;
+        margin: 8px 0;
+      }
+      .construction-title {
+        font-weight: bold;
+        color: #744210;
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+      .formula {
+        background: #edf2f7;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: monospace;
+        display: inline-block;
+        margin: 2px 0;
+      }
+      .header {
+        grid-column: 1 / -1;
+        text-align: center;
+        background: linear-gradient(135deg, #e53e3e 0%, #38a169 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .key-insight {
+        background: #e6fffa;
+        border-left: 4px solid #38b2ac;
+        padding: 6px 8px;
+        margin: 4px 0;
+        font-style: italic;
+      }
+      .algorithm {
+        background: #f7fafc;
+        border: 1px solid #cbd5e0;
+        border-radius: 4px;
+        padding: 6px;
+        margin: 4px 0;
+        font-family: monospace;
+        font-size: 10px;
+      }
+      .corollary {
+        background: #fef5e7;
+        border: 1px solid #f6ad55;
+        border-radius: 4px;
+        padding: 6px;
+        margin: 4px 0;
+        font-size: 10px;
+      }
+      .equivalence {
+        background: #ebf8ff;
+        border: 1px solid #90cdf4;
+        border-radius: 4px;
+        padding: 6px;
+        margin: 4px 0;
+      }
+      .steps {
+        counter-reset: step-counter;
+        margin: 4px 0;
+      }
+      .step {
+        counter-increment: step-counter;
+        margin: 3px 0;
+        padding-left: 20px;
+        position: relative;
+      }
+      .step::before {
+        content: counter(step-counter) ".";
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        color: #2d5016;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Graph Theory Theorems & Proofs</h1>
+        <p>Complete collection of key theorems with and without proofs</p>
+        <p>
+          For all the terms refer to the
+          <a href="index.html" style="color: #ffd; text-decoration: underline">
+            terms page</a
+          >.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>🔴 Theorems Without Proofs</h2>
+
+        <div class="theorem">
+          <div class="theorem-title">Handshaking Lemma</div>
+          <div class="theorem-content">
+            For any graph \(G = (V, E)\): \(\sum_{v \in V} \deg(v) = 2|E|\)
+          </div>
+        </div>
+
+        <div class="corollary">
+          <strong>Corollary 1:</strong> Number of vertices with odd degree is
+          even <br /><strong>Corollary 2:</strong> Average degree =
+          \(\frac{2|E|}{|V|}\)
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Bipartite Graph Characterization</div>
+          <div class="theorem-content">
+            Graph \(G\) is bipartite ⟺ \(G\) contains no odd cycles
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Powers of Adjacency Matrix</div>
+          <div class="theorem-content">
+            For adjacency matrix \(A\): \((A^k)_{ij}\) = number of walks of
+            length \(k\) from vertex \(i\) to vertex \(j\)
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Chromatic Number Bounds</div>
+          <div class="theorem-content">
+            <strong>Lower bound:</strong> \(\chi(G) \geq \omega(G)\) (clique
+            number) <br /><strong>Upper bound:</strong> \(\chi(G) \leq \Delta(G)
+            + 1\) (max degree + 1) <br /><strong>Improved:</strong> \(\chi(G)
+            \geq \frac{n}{\alpha(G)}\) (independence number)
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Brooks' Theorem</div>
+          <div class="theorem-content">
+            If \(G\) is connected and neither complete nor an odd cycle, then
+            \(\chi(G) \leq \Delta(G)\)
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Eulerian Graph Characterization</div>
+          <div class="equivalence">
+            For connected graph \(G\), the following are equivalent:
+            <br />• \(G\) has Eulerian cycle <br />• All vertices have even
+            degree <br />• Edge set can be partitioned into cycles
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Havel-Hakimi Algorithm</div>
+          <div class="algorithm">
+            Input: Degree sequence d₁ ≥ d₂ ≥ ... ≥ dₙ 1. If all degrees are 0,
+            return "graphic" 2. If d₁ ≥ n or d₁ < 0, return "not graphic" 3.
+            Remove d₁, subtract 1 from next d₁ terms 4. Reorder and repeat
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🔴 More Theorems Without Proofs</h2>
+
+        <div class="theorem">
+          <div class="theorem-title">Erdős-Gallai Theorem</div>
+          <div class="theorem-content">
+            Sequence \(d_1 \geq d_2 \geq \ldots \geq d_n\) is graphic ⟺
+            <br />1. \(\sum_{i=1}^n d_i\) is even, and <br />2. For all \(1 \leq
+            k \leq n\): \[\sum_{i=1}^k d_i \leq k(k-1) + \sum_{i=k+1}^n
+            \min(d_i, k)\]
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Kuratowski's Theorem</div>
+          <div class="theorem-content">
+            Graph \(G\) is planar ⟺ \(G\) contains no subdivision of \(K_5\) or
+            \(K_{3,3}\)
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Whitney Isomorphism Theorem</div>
+          <div class="theorem-content">
+            For graphs \(G_1, G_2\) (neither \(K_3\) nor \(K_{1,3}\)):
+            <br />\(G_1 \cong G_2\) ⟺ \(L(G_1) \cong L(G_2)\) <br />where
+            \(L(G)\) is the line graph of \(G\)
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Block Graph Characterization</div>
+          <div class="theorem-content">
+            Graph \(G\) is a block graph ⟺ \(G\) is a chordal graph with no
+            induced \(K_4\)
+            <br />Equivalently: Every block is a clique
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Handshaking Lemma for Digraphs</div>
+          <div class="theorem-content">
+            For any digraph \(D = (V, A)\): \[\sum_{v \in V} d^+(v) = \sum_{v
+            \in V} d^-(v) = |A|\]
+          </div>
+        </div>
+
+        <div class="theorem">
+          <div class="theorem-title">Digraph Hamiltonian Generalization</div>
+          <div class="theorem-content">
+            <strong>Meyniel's Theorem:</strong> If for all non-adjacent vertices
+            \(u, v\): \(d^+(u) + d^+(v) + d^-(u) + d^-(v) \geq 2n - 1\)
+            <br />then the digraph is Hamiltonian.
+          </div>
+        </div>
+      </div>
+
+      <div class="section with-proofs">
+        <h2>🟢 Theorems With Proofs</h2>
+
+        <div class="proof">
+          <div class="proof-title">Radius-Diameter Construction</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> For any integers \(r, d\) with \(r \leq d
+            \leq 2r\), there exists a graph \(G\) with \(\text{rad}(G) = r\) and
+            \(\text{diam}(G) = d\). <br /><br /><strong
+              >Proof (Construction):</strong
+            >
+            <div class="steps">
+              <div class="step">
+                Start with path \(P\) of length \(d\): \(v_0 - v_1 - \ldots -
+                v_d\)
+              </div>
+              <div class="step">
+                Add vertex \(c\) connected to \(v_r\) (this will be in center)
+              </div>
+              <div class="step">
+                Verify: \(e(c) = \max\{r, d-r\} = r\) (since \(d \leq 2r\))
+              </div>
+              <div class="step">
+                For any \(v_i\): \(e(v_i) = \max\{i+1, d-i+1\} \geq r+1\)
+              </div>
+              <div class="step">
+                Thus \(\text{rad}(G) = r\) and \(\text{diam}(G) = d\) ∎
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof">
+          <div class="proof-title">Center Realization</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> Any graph \(H\) can be realized as the
+            center of some connected graph \(G\). <br /><br /><strong
+              >Proof (Construction):</strong
+            >
+            <div class="steps">
+              <div class="step">Let \(H\) have \(n\) vertices</div>
+              <div class="step">
+                For each vertex \(v \in V(H)\), attach path of length \(n+1\)
+              </div>
+              <div class="step">Call resulting graph \(G\)</div>
+              <div class="step">For \(v \in V(H)\): \(e_G(v) = n+1\)</div>
+              <div class="step">
+                For pendant vertices: eccentricity \(> n+1\)
+              </div>
+              <div class="step">
+                For internal path vertices: eccentricity \(> n+1\)
+              </div>
+              <div class="step">Therefore \(\text{center}(G) = V(H)\) ∎</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof">
+          <div class="proof-title">Five Color Theorem</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> Every planar graph is 5-colorable.
+            <br /><br /><strong>Proof:</strong>
+            <div class="steps">
+              <div class="step">
+                By induction on \(|V|\). Base case: \(|V| \leq 5\) is trivial
+              </div>
+              <div class="step">
+                Assume theorem holds for all planar graphs with \(< n\) vertices
+              </div>
+              <div class="step">
+                By Euler's formula: \(\sum \deg(v) = 2|E| \leq 6|V| - 12\)
+              </div>
+              <div class="step">
+                Average degree \(< 6\), so \(\exists v\) with \(\deg(v) \leq 5\)
+              </div>
+              <div class="step">
+                Remove \(v\), color \(G - v\) with 5 colors by IH
+              </div>
+              <div class="step">
+                If \(\deg(v) \leq 4\), color \(v\) with unused color
+              </div>
+              <div class="step">
+                If \(\deg(v) = 5\), use Kempe chain argument to free a color ∎
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section with-proofs">
+        <h2>🟢 More Proofs</h2>
+
+        <div class="proof">
+          <div class="proof-title">Ore's Theorem</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> If \(G\) is simple with \(n \geq 3\)
+            vertices and \(\deg(u) + \deg(v) \geq n\) for all non-adjacent \(u,
+            v\), then \(G\) is Hamiltonian. <br /><br /><strong>Proof:</strong>
+            <div class="steps">
+              <div class="step">
+                Let \(P = v_1v_2\ldots v_k\) be longest path in \(G\)
+              </div>
+              <div class="step">
+                All neighbors of \(v_1\) and \(v_k\) are on \(P\)
+              </div>
+              <div class="step">
+                Let \(N(v_1) = \{v_{i_1}, \ldots, v_{i_s}\}\) where \(i_1 <
+                \ldots < i_s\)
+              </div>
+              <div class="step">
+                If \(v_{i_j} \in N(v_1)\) then \(v_{i_j-1} \notin N(v_k)\) (else
+                cycle)
+              </div>
+              <div class="step">
+                Since \(|N(v_1)| + |N(v_k)| \geq n\) and \(|P| \leq n\), get
+                contradiction
+              </div>
+              <div class="step">
+                Therefore \(k = n\) and \(P\) is Hamiltonian path
+              </div>
+              <div class="step">
+                Connect endpoints using degree condition to get cycle ∎
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="corollary">
+          <strong>Dirac's Theorem:</strong> If \(\deg(v) \geq n/2\) for all
+          \(v\), then \(G\) is Hamiltonian. <br /><em>Proof:</em> For
+          non-adjacent \(u, v\): \(\deg(u) + \deg(v) \geq n\). Apply Ore's
+          theorem.
+        </div>
+
+        <div class="proof">
+          <div class="proof-title">Connected Graph Realization</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> Graphic sequence \(M\) is realizable by
+            connected graph ⟺ \(M\) is graphic and \(\sum_{d \in M} d \geq 2(|M|
+            - 1)\). <br /><br /><strong>Proof:</strong>
+            <div class="steps">
+              <div class="step">
+                (\(\Rightarrow\)) Connected graph on \(n\) vertices has \(\geq
+                n-1\) edges
+              </div>
+              <div class="step">
+                By handshaking: \(\sum d = 2|E| \geq 2(n-1)\)
+              </div>
+              <div class="step">
+                (\(\Leftarrow\)) Use Havel-Hakimi to construct graph \(G\)
+              </div>
+              <div class="step">
+                If \(G\) disconnected with components \(C_1, \ldots, C_k\)
+              </div>
+              <div class="step">
+                Then \(|E| = \sum_{i=1}^k |E(C_i)| \leq \sum_{i=1}^k (|C_i| - 1)
+                = n - k\)
+              </div>
+              <div class="step">
+                So \(\sum d = 2|E| \leq 2(n-k) < 2(n-1)\), contradiction ∎
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof">
+          <div class="proof-title">Euler's Polyhedron Formula</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> For connected planar graph: \(v - e + f =
+            2\). <br /><br /><strong>Proof:</strong>
+            <div class="steps">
+              <div class="step">
+                Induction on \(e\). Base: \(e = 0 \Rightarrow v = 1, f = 1\).
+                Check: \(1 - 0 + 1 = 2\) ✓
+              </div>
+              <div class="step">Inductive step: Remove edge \(e\)</div>
+              <div class="step">
+                Case 1: \(e\) is bridge. Then \(v' = v\), \(e' = e-1\), \(f' =
+                f-1\)
+              </div>
+              <div class="step">
+                By IH: \(v' - e' + f' = 2 \Rightarrow v - (e-1) + (f-1) = 2\) ✓
+              </div>
+              <div class="step">
+                Case 2: \(e\) not bridge. Then \(v' = v\), \(e' = e-1\), \(f' =
+                f-1\)
+              </div>
+              <div class="step">
+                By IH: \(v - (e-1) + (f-1) = 2 \Rightarrow v - e + f = 2\) ✓ ∎
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof">
+          <div class="proof-title">Intersection Graph Universality</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> Every graph is the intersection graph of
+            some family of sets. <br /><br /><strong
+              >Proof (Construction):</strong
+            >
+            <div class="steps">
+              <div class="step">Given graph \(G = (V, E)\)</div>
+              <div class="step">
+                For each vertex \(v \in V\), define \(S_v = \{e \in E : v \in
+                e\}\)
+              </div>
+              <div class="step">
+                Consider intersection graph \(H\) of family \(\{S_v : v \in
+                V\}\)
+              </div>
+              <div class="step">
+                Vertices \(u, v\) adjacent in \(H\) ⟺ \(S_u \cap S_v \neq
+                \emptyset\)
+              </div>
+              <div class="step">
+                This happens ⟺ \(\exists e \in E\) with \(u, v \in e\)
+              </div>
+              <div class="step">This happens ⟺ \(u, v\) adjacent in \(G\)</div>
+              <div class="step">Therefore \(G \cong H\) ∎</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof">
+          <div class="proof-title">Acyclic Digraph Source-Sink</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> Every acyclic digraph has a source and a
+            sink. <br /><br /><strong>Proof:</strong>
+            <div class="steps">
+              <div class="step">
+                Suppose no source exists (all vertices have indegree \(> 0\))
+              </div>
+              <div class="step">Start at any vertex \(v_0\)</div>
+              <div class="step">
+                Since \(d^-(v_0) > 0\), \(\exists v_1\) with \(v_1 \to v_0\)
+              </div>
+              <div class="step">
+                Since \(d^-(v_1) > 0\), \(\exists v_2\) with \(v_2 \to v_1\)
+              </div>
+              <div class="step">
+                Continue to build sequence \(v_0 \leftarrow v_1 \leftarrow v_2
+                \leftarrow \ldots\)
+              </div>
+              <div class="step">
+                Since \(|V|\) finite, some vertex repeats: \(v_i = v_j\) for \(i
+                < j\)
+              </div>
+              <div class="step">
+                This creates directed cycle \(v_i \leftarrow v_{i+1} \leftarrow
+                \ldots \leftarrow v_j = v_i\)
+              </div>
+              <div class="step">Contradiction! Similarly for sink ∎</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proof">
+          <div class="proof-title">Rédei's Theorem</div>
+          <div class="proof-content">
+            <strong>Theorem:</strong> Every tournament has a Hamiltonian path.
+            <br /><br /><strong>Proof:</strong>
+            <div class="steps">
+              <div class="step">
+                Induction on \(n = |V|\). Base: \(n = 1, 2\) trivial
+              </div>
+              <div class="step">
+                Assume true for tournaments on \(n-1\) vertices
+              </div>
+              <div class="step">
+                Remove vertex \(v\), get tournament \(T'\) on \(n-1\) vertices
+              </div>
+              <div class="step">
+                By IH, \(T'\) has Hamiltonian path \(P: u_1 \to u_2 \to \ldots
+                \to u_{n-1}\)
+              </div>
+              <div class="step">
+                Case 1: \(v \to u_1\). Then \(v \to u_1 \to \ldots \to u_{n-1}\)
+                is Hamiltonian
+              </div>
+              <div class="step">
+                Case 2: \(u_{n-1} \to v\). Then \(u_1 \to \ldots \to u_{n-1} \to
+                v\) is Hamiltonian
+              </div>
+              <div class="step">
+                Case 3: \(u_1 \to v\) and \(v \to u_{n-1}\). Find \(i\) with
+                \(u_i \to v \to u_{i+1}\)
+              </div>
+              <div class="step">
+                Then \(u_1 \to \ldots \to u_i \to v \to u_{i+1} \to \ldots \to
+                u_{n-1}\) is Hamiltonian ∎
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
