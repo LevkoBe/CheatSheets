@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cheatsheet Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="configStyles.css" />
+  </head>
+  <body>
+    <div class="viewer-container">
+      <header class="viewer-header">
+        <div class="header-content">
+          <h1 id="cheatsheetTitle">Loading...</h1>
+          <div class="header-actions">
+            <button id="homeBtn" class="btn btn-secondary">🏠 Home</button>
+            <button id="exportMdBtn" class="btn btn-secondary">
+              📄 Export MD
+            </button>
+            <button id="exportStylesBtn" class="btn btn-secondary">
+              🎨 Export Styles
+            </button>
+            <button id="configBtn" class="btn btn-primary">⚙️ Configure</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="cheatsheet-content" id="cheatsheetContent">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading cheatsheet...</p>
+        </div>
+      </main>
+    </div>
+
+    <script src="viewer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Architecture Slides</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0f0f23 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+        color: #e6e6fa;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      .slide-container {
+        min-height: 100vh;
+        padding: 40px 20px;
+        position: relative;
+      }
+
+      .slide {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .slide-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .slide-number {
+        display: inline-block;
+        background: linear-gradient(45deg, #4a9eff, #00d4aa);
+        color: #0f0f23;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .slide-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: #ffffff;
+        margin-bottom: 15px;
+      }
+
+      .slide-subtitle {
+        font-size: 1.2rem;
+        color: #8892b0;
+        font-weight: 400;
+      }
+
+      .content-grid {
+        display: grid;
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #4a9eff, #00d4aa, #ff6b6b);
+      }
+
+      .card-title {
+        font-size: 1.4rem;
+        color: #64ffda;
+        margin-bottom: 15px;
+        font-weight: 500;
+      }
+
+      .card-content {
+        color: #ccd6f6;
+      }
+
+      .highlight-box {
+        background: rgba(100, 255, 218, 0.1);
+        border-left: 4px solid #64ffda;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 0 10px 10px 0;
+      }
+
+      .code-block {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+        color: #64ffda;
+        overflow-x: auto;
+      }
+
+      .feature-list {
+        list-style: none;
+        margin: 15px 0;
+      }
+
+      .feature-list li {
+        padding: 8px 0;
+        padding-left: 25px;
+        position: relative;
+        color: #8892b0;
+      }
+
+      .feature-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 8px;
+        background: #ff6b6b;
+        border-radius: 50%;
+      }
+
+      .floating-card {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        font-size: 0.9rem;
+        color: #8892b0;
+      }
+
+      /* Slide 1 Specific */
+      .slide1 .content-grid {
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .main-protocol-card {
+        grid-column: 1;
+        grid-row: 1 / -1;
+      }
+
+      .features-card {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .resilience-card {
+        grid-column: 2;
+        grid-row: 2;
+      }
+
+      .floating-stats {
+        top: 120px;
+        right: -100px;
+        transform: rotate(5deg);
+        width: 180px;
+      }
+
+      /* Slide 2 Specific */
+      .slide2 .content-grid {
+        grid-template-columns: 1.5fr 1fr;
+        gap: 40px;
+      }
+
+      .architecture-card {
+        position: relative;
+      }
+
+      .benefits-card {
+        align-self: start;
+      }
+
+      .floating-data {
+        bottom: 50px;
+        left: -50px;
+        transform: rotate(-3deg);
+        width: 200px;
+      }
+
+      /* Slide 3 Specific */
+      .slide3 .content-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .blob-system-card {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .caching-card {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .optimizations-card {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      .floating-render {
+        top: 200px;
+        right: -80px;
+        transform: rotate(-5deg);
+        width: 150px;
+      }
+
+      /* Slide 4 Specific */
+      .slide4 .content-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .controls-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .mobile-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .floating-platform {
+        top: 150px;
+        left: 50%;
+        transform: translateX(-50%) rotate(2deg);
+        width: 160px;
+      }
+
+      .tech-badge {
+        display: inline-block;
+        background: rgba(255, 107, 107, 0.2);
+        color: #ff6b6b;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin: 0 5px 5px 0;
+      }
+
+      @media (max-width: 768px) {
+        .slide-title {
+          font-size: 2rem;
+        }
+
+        .content-grid {
+          grid-template-columns: 1fr !important;
+        }
+
+        .floating-card {
+          position: relative !important;
+          margin: 20px 0;
+          transform: none !important;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+          bottom: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Slide 1: Communication Protocol -->
+    <div class="slide-container">
+      <div class="slide slide1">
+        <div class="slide-header">
+          <div class="slide-number">01</div>
+          <h1 class="slide-title">
+            Communication Protocol & Real-Time Architecture
+          </h1>
+          <p class="slide-subtitle">WebSocket-Based Bidirectional Protocol</p>
+        </div>
+
+        <div class="content-grid">
+          <div class="card main-protocol-card">
+            <h3 class="card-title">Custom WebSocket Protocol</h3>
+            <div class="card-content">
+              <p>
+                <strong>Challenge:</strong> Synchronizing 60fps game state
+                across multiple clients with minimal latency
+              </p>
+
+              <div class="highlight-box">
+                <p>
+                  <strong>Solution:</strong> Custom WebSocket protocol with 12
+                  optimized message types
+                </p>
+              </div>
+
+              <ul class="feature-list">
+                <li>
+                  <strong>High-frequency updates:</strong> gameState (60fps)
+                  with visibility culling
+                </li>
+                <li>
+                  <strong>Low-frequency data:</strong> leaderboard (1fps),
+                  playerData (on connect)
+                </li>
+                <li>
+                  <strong>User actions:</strong> input, split, feed, speedup
+                  (event-driven)
+                </li>
+                <li>
+                  <strong>Connection management:</strong> join, leave,
+                  customSkinBroadcast
+                </li>
+              </ul>
+
+              <div class="code-block">
+                socket.onmessage = (event) => { const message =
+                JSON.parse(event.data); switch (message.type) { case
+                "gameState": handleGameState(message); break; case
+                "customSkinBroadcast": gameState.updatePlayerSkin(message.id,
+                message.image); break; } };
+              </div>
+            </div>
+          </div>
+
+          <div class="card features-card">
+            <h3 class="card-title">Smart Message Handling</h3>
+            <div class="card-content">
+              <ul class="feature-list">
+                <li>Efficient message routing</li>
+                <li>Type-based handlers</li>
+                <li>State synchronization</li>
+                <li>Visibility culling</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card resilience-card">
+            <h3 class="card-title">Resilience Features</h3>
+            <div class="card-content">
+              <ul class="feature-list">
+                <li>Auto-reconnection with 3s delay</li>
+                <li>Client-side vector calculations</li>
+                <li>Graceful degradation</li>
+                <li>Local vs production endpoints</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-card floating-stats">
+          <strong>Performance Stats</strong><br />
+          60fps updates<br />
+          12 message types<br />
+          Minimal latency
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Frontend Architecture -->
+    <div class="slide-container">
+      <div class="slide slide2">
+        <div class="slide-header">
+          <div class="slide-number">02</div>
+          <h1 class="slide-title">Frontend Architecture & State Management</h1>
+          <p class="slide-subtitle">
+            Modular Component Design & Centralized Configuration
+          </p>
+        </div>
+
+        <div class="content-grid">
+          <div class="card architecture-card">
+            <h3 class="card-title">Organized System Architecture</h3>
+            <div class="card-content">
+              <p>
+                <strong>Challenge:</strong> Managing complex game state while
+                maintaining clear separation of concerns
+              </p>
+
+              <div class="highlight-box">
+                <p>
+                  <strong>Solution:</strong> Centralized state management with
+                  modular responsibilities
+                </p>
+              </div>
+
+              <div class="code-block">
+                const state = { // Player & Identity playerName:
+                trimWithEllipsis(
+                localStorage.getItem(LOCAL_STORAGE_KEYS.PLAYER_NAME),
+                MAX_PLAYER_NAME_LENGTH ) || "YourNickname", // World &
+                Connection roomId: null, worldSize: { width: defaultWorldSize,
+                height: defaultWorldSize }, connected: false, // Game Entities
+                players: [], food: [], bushes: [], // Visual & Interaction
+                camera: { x: defaultWorldSize / 2, y: defaultWorldSize / 2,
+                scale: 1 }, playersSkins: [] };
+              </div>
+            </div>
+          </div>
+
+          <div class="card benefits-card">
+            <h3 class="card-title">Design Principles</h3>
+            <div class="card-content">
+              <ul class="feature-list">
+                <li>
+                  <strong>Clear separation:</strong> Logic, visuals, and
+                  interaction organized distinctly
+                </li>
+                <li>
+                  <strong>Modular building blocks:</strong> UI components for
+                  reusability
+                </li>
+                <li>
+                  <strong>Centralized configuration:</strong> Abstracted styles
+                  and configs
+                </li>
+                <li>
+                  <strong>Cross-session persistence:</strong> localStorage
+                  protocol
+                </li>
+              </ul>
+
+              <div style="margin-top: 20px">
+                <span class="tech-badge">Memory Efficient</span>
+                <span class="tech-badge">Type Safe</span>
+                <span class="tech-badge">Persistent</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-card floating-data">
+          <strong>Cross-Screen Data Flow</strong><br />
+          Menu ↔ Game<br />
+          playerName, customSkin<br />
+          privateRoomId, lastScore
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Rendering System -->
+    <div class="slide-container">
+      <div class="slide slide3">
+        <div class="slide-header">
+          <div class="slide-number">03</div>
+          <h1 class="slide-title">Rendering & Visual Effects System</h1>
+          <p class="slide-subtitle">
+            Advanced Multi-Algorithm Blob Rendering with Intelligent Caching
+          </p>
+        </div>
+
+        <div class="content-grid">
+          <div class="card blob-system-card">
+            <h3 class="card-title">Three-Tier Blob System</h3>
+            <div class="card-content">
+              <p>
+                <strong>Challenge:</strong> Creating organic, animated shapes
+                for different entity types at 60fps
+              </p>
+
+              <div class="highlight-box">
+                <p>
+                  <strong>Innovation:</strong> Seed-based procedural generation
+                  with sophisticated caching
+                </p>
+              </div>
+
+              <ul class="feature-list">
+                <li>
+                  <strong>Wavy Blobs (Players):</strong> Smooth organic movement
+                  with wobble effects
+                </li>
+                <li>
+                  <strong>Spiky Blobs (Bots):</strong> Aggressive appearance
+                  with dynamic spikes
+                </li>
+                <li>
+                  <strong>Fluffy Bushes:</strong> Multi-circle composition for
+                  natural hiding
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card caching-card">
+            <h3 class="card-title">Intelligent Caching</h3>
+            <div class="card-content">
+              <p>
+                <strong>Weighted Centering:</strong> Camera follows mass center
+                of all player cells
+              </p>
+
+              <div class="code-block">
+                let x = 0, y = 0, weight = 0; for (const cell of player.cells) {
+                const r = cell.radius || 1; x += cell.x * r; y += cell.y * r;
+                weight += r; }
+              </div>
+
+              <ul class="feature-list">
+                <li>Skin caching and reuse</li>
+                <li>Movement pattern optimization</li>
+                <li>Radii calculations cache</li>
+                <li>Blob control points cache</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card optimizations-card">
+            <h3 class="card-title">Performance & Visual Optimizations</h3>
+            <div class="card-content">
+              <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px"
+              >
+                <div>
+                  <ul class="feature-list">
+                    <li>Trail system with alpha decay</li>
+                    <li>Breathing animation via sine waves</li>
+                    <li>Image masking with color blending</li>
+                    <li>Dynamic viewport-based rendering</li>
+                  </ul>
+                </div>
+                <div>
+                  <div class="code-block">
+                    const controlPoints = generateWavyBlobControlPoints(blobId,
+                    points); blobCache.set(blobId, controlPoints);
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-card floating-render">
+          <strong>60fps Rendering</strong><br />
+          Multi-layer cache<br />
+          Procedural generation<br />
+          Organic animations
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Cross-Platform Input -->
+    <div class="slide-container">
+      <div class="slide slide4">
+        <div class="slide-header">
+          <div class="slide-number">04</div>
+          <h1 class="slide-title">Cross-Platform Input & Mobile Adaptation</h1>
+          <p class="slide-subtitle">
+            Unified Control System with Responsive Design
+          </p>
+        </div>
+
+        <div class="content-grid">
+          <div class="controls-cards">
+            <div class="card">
+              <h3 class="card-title">Desktop Controls & Configuration</h3>
+              <div class="card-content">
+                <p>
+                  <strong>Challenge:</strong> Consistent gameplay experience
+                  across desktop and mobile devices
+                </p>
+
+                <div class="code-block">
+                  export const INPUT = { CODES: { FEED: "KeyW", SPLIT: "Space",
+                  MASK_SKIN: "KeyA", RESET_SKIN: "KeyR", CLEAR_KEYWORD:
+                  "Backspace", TOGGLE_PAUSE: "Escape" }, KEYS: { SPEEDUP:
+                  "Shift" } };
+                </div>
+
+                <ul class="feature-list">
+                  <li>Normalized movement calculations</li>
+                  <li>Precise vector control</li>
+                  <li>Advanced keyboard bindings</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mobile-cards">
+            <div class="card">
+              <h3 class="card-title">Mobile-First Adaptations</h3>
+              <div class="card-content">
+                <div class="highlight-box">
+                  <p>
+                    <strong>Solution:</strong> Platform-aware input system with
+                    responsive UI components
+                  </p>
+                </div>
+
+                <div class="code-block">
+                  const clamp = (dx, dy) => { const dist = Math.hypot(dx, dy);
+                  if (dist > JOYSTICK.RADIUS) { const angle = Math.atan2(dy,
+                  dx); dx = Math.cos(angle) * JOYSTICK.RADIUS; dy =
+                  Math.sin(angle) * JOYSTICK.RADIUS; } return { dx, dy }; };
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 class="card-title">Responsive UI & Detection</h3>
+              <div class="card-content">
+                <ul class="feature-list">
+                  <li>
+                    <strong>Responsive UI:</strong> Adaptive layout (3 vs 10
+                    leaderboard items)
+                  </li>
+                  <li>
+                    <strong>Virtual joystick:</strong> Touch-based movement with
+                    visual feedback
+                  </li>
+                  <li>
+                    <strong>Auto detection:</strong> Touch capability with
+                    gameState.isTouch
+                  </li>
+                  <li>
+                    <strong>Cross-platform:</strong> Unified action handlers
+                    across inputs
+                  </li>
+                </ul>
+
+                <div style="margin-top: 15px">
+                  <span class="tech-badge">Touch Optimized</span>
+                  <span class="tech-badge">Responsive</span>
+                  <span class="tech-badge">Unified</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating-card floating-platform">
+          <strong>Platform Detection</strong><br />
+          Desktop: Mouse + Keyboard<br />
+          Mobile: Touch + Virtual Joystick
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
