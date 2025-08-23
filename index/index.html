@@ -5,61 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cheatsheet Manager</title>
     <link rel="stylesheet" href="index.css" />
+    <script>
+      // Apply saved styles immediately on page load
+      (() => {
+        const saved = localStorage.getItem("cheatsheet-styles");
+        if (saved) {
+          try {
+            const config = JSON.parse(saved);
+            const vars = {
+              "--primary-color": config.primary || "#667eea",
+              "--secondary-color": config.secondary || "#764ba2",
+              "--background-color": config.bg || "#f8f9fa",
+              "--card-background": config.card || "#ffffff",
+              "--border-radius": (config.radius || "8") + "px",
+              // Fallback CSS vars
+              "--primary": config.primary || "#667eea",
+              "--bg": config.bg || "#f8f9fa",
+              "--card": config.card || "#ffffff",
+              "--radius": (config.radius || "8") + "px",
+            };
+
+            Object.entries(vars).forEach(([prop, val]) => {
+              document.documentElement.style.setProperty(prop, val);
+            });
+          } catch {}
+        }
+      })();
+    </script>
   </head>
   <body>
-    <div class="main-container">
-      <header class="main-header">
+    <div class="container">
+      <header class="header">
         <h1>📚 Cheatsheet Manager</h1>
         <p>Create, manage, and style your reference materials</p>
       </header>
 
       <div class="action-bar">
-        <button id="importBtn" class="btn btn-primary">
-          📁 Import Markdown
-        </button>
-        <button id="configBtn" class="btn btn-secondary">
+        <button id="import" class="btn btn-primary">📁 Import Markdown</button>
+        <button id="config" class="btn btn-secondary">
           🎨 Configure Styles
         </button>
-        <input
-          type="file"
-          id="fileInput"
-          accept=".md,.txt"
-          style="display: none"
-        />
+        <input type="file" id="file" accept=".md,.txt" style="display: none" />
       </div>
 
-      <div class="cheatsheets-grid" id="cheatsheetsGrid"></div>
+      <div class="grid" id="grid"></div>
 
-      <div class="empty-state" id="emptyState">
-        <div class="empty-icon">📋</div>
+      <div class="empty-state" id="empty">
+        <div>📋</div>
         <h3>No cheatsheets yet</h3>
         <p>Import a markdown file to get started</p>
       </div>
     </div>
 
-    <div id="previewModal" class="modal">
+    <div id="modal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
           <h3>Preview & Edit</h3>
-          <button class="close-btn">&times;</button>
+          <button id="close">&times;</button>
         </div>
         <div class="modal-body">
           <div class="input-group">
-            <label for="cheatsheetTitle">Title:</label>
-            <input type="text" id="cheatsheetTitle" placeholder="Enter title" />
+            <label for="title">Title:</label>
+            <input type="text" id="title" placeholder="Enter title" />
           </div>
           <div class="input-group">
-            <label for="cheatsheetContent">Content:</label>
+            <label for="content">Content:</label>
             <textarea
-              id="cheatsheetContent"
+              id="content"
               rows="15"
               placeholder="Paste or edit your markdown content here..."
             ></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
-          <button id="saveBtn" class="btn btn-primary">Save Cheatsheet</button>
+          <button id="cancel" class="btn btn-secondary">Cancel</button>
+          <button id="save" class="btn btn-primary">Save Cheatsheet</button>
         </div>
       </div>
     </div>

@@ -5,21 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cheatsheet Viewer</title>
 
-    <!-- Marked.js for Markdown parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.js"></script>
+    <script>
+      // Apply saved styles immediately on page load
+      (() => {
+        const saved = localStorage.getItem("cheatsheet-styles");
+        if (saved) {
+          try {
+            const config = JSON.parse(saved);
+            const vars = {
+              "--primary-color": config.primary || "#667eea",
+              "--secondary-color": config.secondary || "#764ba2",
+              "--background-color": config.bg || "#f8f9fa",
+              "--card-background": config.card || "#ffffff",
+              "--border-radius": (config.radius || "8") + "px",
+              // Fallback CSS vars
+              "--primary": config.primary || "#667eea",
+              "--bg": config.bg || "#f8f9fa",
+              "--card": config.card || "#ffffff",
+              "--radius": (config.radius || "8") + "px",
+            };
 
-    <!-- KaTeX for math rendering -->
+            Object.entries(vars).forEach(([prop, val]) => {
+              document.documentElement.style.setProperty(prop, val);
+            });
+          } catch {}
+        }
+      })();
+    </script>
+
+    <!-- External libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js"></script>
-
-    <!-- MathJax as fallback -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
-
-    <!-- Highlight.js for code syntax highlighting -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css"
@@ -27,28 +48,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
     <link rel="stylesheet" href="../index/index.css" />
-    <link rel="stylesheet" href="../configStyles.css" />
     <link rel="stylesheet" href="viewer.css" />
   </head>
   <body>
     <div class="viewer-container">
       <header class="viewer-header">
         <div class="header-content">
-          <h1 id="cheatsheetTitle">Loading...</h1>
+          <h1 id="title">Loading...</h1>
           <div class="header-actions">
-            <button id="homeBtn" class="btn btn-secondary">🏠 Home</button>
-            <button id="exportMdBtn" class="btn btn-secondary">
-              📄 Export MD
-            </button>
-            <button id="exportStylesBtn" class="btn btn-secondary">
-              🎨 Export Styles
-            </button>
-            <button id="configBtn" class="btn btn-primary">⚙️ Configure</button>
+            <button id="home" class="btn btn-secondary">🏠 Home</button>
+            <button id="export" class="btn btn-secondary">📄 Export</button>
+            <button id="config" class="btn btn-primary">⚙️ Configure</button>
           </div>
         </div>
       </header>
 
-      <main class="cheatsheet-content" id="cheatsheetContent">
+      <main class="cheatsheet-content" id="content">
         <div class="loading">
           <div class="spinner"></div>
           <p>Loading cheatsheet...</p>
