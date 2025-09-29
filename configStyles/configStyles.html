@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Style Configuration - Cheatsheet Manager</title>
+    <script src="../shared/style-manager.js"></script>
     <link rel="stylesheet" href="../index/index.css" />
     <link rel="stylesheet" href="configStyles.css" />
   </head>
@@ -11,7 +12,7 @@
     <div class="config-container">
       <header class="header">
         <h1>🎨 Style Configuration</h1>
-        <p>Customize the appearance of your cheatsheets</p>
+        <p>Customize every aspect of your cheatsheets</p>
       </header>
 
       <div class="action-bar">
@@ -20,7 +21,7 @@
       </div>
 
       <div class="config-section">
-        <h3>Color Presets</h3>
+        <h3>Presets</h3>
         <div class="preset-buttons" id="presets">
           <button class="preset-btn active" data-preset="default">
             Default
@@ -34,43 +35,229 @@
 
       <div class="config-section">
         <h3>Colors</h3>
-        <div class="form-group">
-          <label>Primary Color</label>
-          <div class="color-input">
-            <input type="color" id="primaryPicker" value="#667eea" />
-            <input type="text" id="primary" value="#667eea" />
+        <div class="config-grid">
+          <div class="form-group">
+            <label>Primary</label>
+            <div class="color-input">
+              <input type="color" id="primaryPicker" />
+              <input type="text" id="primary" />
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Secondary Color</label>
-          <div class="color-input">
-            <input type="color" id="secondaryPicker" value="#764ba2" />
-            <input type="text" id="secondary" value="#764ba2" />
+          <div class="form-group">
+            <label>Secondary</label>
+            <div class="color-input">
+              <input type="color" id="secondaryPicker" />
+              <input type="text" id="secondary" />
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Background Color</label>
-          <div class="color-input">
-            <input type="color" id="bgPicker" value="#f8f9fa" />
-            <input type="text" id="bg" value="#f8f9fa" />
+          <div class="form-group">
+            <label>Page Background</label>
+            <div class="color-input">
+              <input type="color" id="bgPicker" />
+              <input type="text" id="bg" />
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Card Background</label>
-          <div class="color-input">
-            <input type="color" id="cardPicker" value="#ffffff" />
-            <input type="text" id="card" value="#ffffff" />
+          <div class="form-group">
+            <label>Card Background</label>
+            <div class="color-input">
+              <input type="color" id="cardPicker" />
+              <input type="text" id="card" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Primary Text</label>
+            <div class="color-input">
+              <input type="color" id="textPrimaryPicker" />
+              <input type="text" id="textPrimary" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Secondary Text</label>
+            <div class="color-input">
+              <input type="color" id="textSecondaryPicker" />
+              <input type="text" id="textSecondary" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Muted Text</label>
+            <div class="color-input">
+              <input type="color" id="textMutedPicker" />
+              <input type="text" id="textMuted" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Inverse Text</label>
+            <div class="color-input">
+              <input type="color" id="textInversePicker" />
+              <input type="text" id="textInverse" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Border</label>
+            <div class="color-input">
+              <input type="color" id="borderPicker" />
+              <input type="text" id="border" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Light Border</label>
+            <div class="color-input">
+              <input type="color" id="borderLightPicker" />
+              <input type="text" id="borderLight" />
+            </div>
           </div>
         </div>
       </div>
 
       <div class="config-section">
-        <h3>Layout</h3>
-        <div class="form-group">
-          <label>Border Radius</label>
-          <div class="range-input">
-            <input type="range" id="radius" min="0" max="20" value="8" />
-            <span class="range-value" id="radiusVal">8px</span>
+        <h3>Special Block Colors</h3>
+        <div class="config-grid">
+          <div class="form-group">
+            <label>Definition Background</label>
+            <div class="color-input">
+              <input type="color" id="defBgPicker" />
+              <input type="text" id="defBg" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Definition Border</label>
+            <div class="color-input">
+              <input type="color" id="defBorderPicker" />
+              <input type="text" id="defBorder" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Theorem Background</label>
+            <div class="color-input">
+              <input type="color" id="theoremBgPicker" />
+              <input type="text" id="theoremBg" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Theorem Border</label>
+            <div class="color-input">
+              <input type="color" id="theoremBorderPicker" />
+              <input type="text" id="theoremBorder" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Proof Background</label>
+            <div class="color-input">
+              <input type="color" id="proofBgPicker" />
+              <input type="text" id="proofBg" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Proof Border</label>
+            <div class="color-input">
+              <input type="color" id="proofBorderPicker" />
+              <input type="text" id="proofBorder" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Highlight Background</label>
+            <div class="color-input">
+              <input type="color" id="highlightBgPicker" />
+              <input type="text" id="highlightBg" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Highlight Border</label>
+            <div class="color-input">
+              <input type="color" id="highlightBorderPicker" />
+              <input type="text" id="highlightBorder" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Code Background</label>
+            <div class="color-input">
+              <input type="color" id="codeBgPicker" />
+              <input type="text" id="codeBg" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <h3>Typography</h3>
+        <div class="config-grid">
+          <div class="form-group">
+            <label>Font Family</label>
+            <input type="text" id="fontFamily" />
+          </div>
+          <div class="form-group">
+            <label>Monospace Font</label>
+            <input type="text" id="fontMono" />
+          </div>
+          <div class="form-group">
+            <label>Base Font Size</label>
+            <div class="range-input">
+              <input
+                type="range"
+                id="fontSizeBase"
+                min="12"
+                max="20"
+                step="1"
+              />
+              <span class="range-value" id="fontSizeBaseVal"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Line Height</label>
+            <div class="range-input">
+              <input
+                type="range"
+                id="lineHeight"
+                min="1.2"
+                max="2.2"
+                step="0.1"
+              />
+              <span class="range-value" id="lineHeightVal"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <h3>Layout & Spacing</h3>
+        <div class="config-grid">
+          <div class="form-group">
+            <label>Border Radius</label>
+            <div class="range-input">
+              <input type="range" id="radius" min="0" max="32" step="1" />
+              <span class="range-value" id="radiusVal"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Border Width</label>
+            <div class="range-input">
+              <input type="range" id="borderWidth" min="0" max="5" step="1" />
+              <span class="range-value" id="borderWidthVal"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Grid Gap</label>
+            <div class="range-input">
+              <input type="range" id="gap" min="10" max="40" step="2" />
+              <span class="range-value" id="gapVal"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Content Max Width</label>
+            <div class="range-input">
+              <input
+                type="range"
+                id="contentMaxWidth"
+                min="800"
+                max="1800"
+                step="50"
+              />
+              <span class="range-value" id="contentMaxWidthVal"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Shadow</label>
+            <input type="text" id="shadow" />
           </div>
         </div>
       </div>
@@ -78,22 +265,39 @@
       <div class="config-section">
         <h3>Preview</h3>
         <div class="preview-section">
+          <h2
+            style="color: var(--text-primary); margin-bottom: var(--space-md)"
+          >
+            Sample Section
+          </h2>
           <div class="sample-def">
-            <strong>Definition:</strong> Sample definition block
+            <strong>Definition:</strong> This is a sample definition block
+            showing the current style.
           </div>
-          <div class="sample-theorem">Sample theorem block</div>
+          <div class="sample-theorem">
+            <strong>Theorem:</strong> This is a sample theorem block.
+          </div>
+          <div class="sample-code">
+            <code
+              >// Sample code block function example() { return "Hello World";
+              }</code
+            >
+          </div>
+          <p style="margin: var(--space-md) 0; color: var(--text-primary)">
+            This is regular paragraph text with
+            <strong>bold emphasis</strong> and normal weight.
+          </p>
           <button class="btn btn-primary">Sample Button</button>
         </div>
       </div>
 
       <div class="action-buttons">
         <button id="save" class="btn btn-primary">💾 Save Configuration</button>
-        <button id="export" class="btn btn-secondary">📤 Export Config</button>
-        <button id="import" class="btn btn-secondary">📥 Import Config</button>
-        <input type="file" id="file" accept=".json" style="display: none" />
+        <button id="export" class="btn btn-secondary">📄 Export JSON</button>
+        <button id="import" class="btn btn-secondary">📂 Import JSON</button>
+        <input type="file" id="file" hidden accept="application/json" />
       </div>
     </div>
-
     <script src="configStyles.js"></script>
   </body>
 </html>

@@ -1,42 +1,52 @@
 class StyleConfigurator {
   constructor() {
-    this.defaults = {
-      primary: "#667eea",
-      secondary: "#764ba2",
-      bg: "#f8f9fa",
-      card: "#ffffff",
-      radius: "8",
-    };
-
+    this.defaults = { ...StyleManager.defaults };
     this.presets = {
       default: this.defaults,
       dark: {
+        ...this.defaults,
         primary: "#4c63d2",
         secondary: "#5a67d8",
         bg: "#1a202c",
         card: "#2d3748",
-        radius: "8",
+        textPrimary: "#f7fafc",
+        textSecondary: "#a0aec0",
+        textMuted: "#718096",
+        textInverse: "#1a202c",
+        border: "#4a5568",
+        borderLight: "#2d3748",
+        defBg: "#2c3359",
+        defBorder: "#4c63d2",
+        theoremBg: "#4a3030",
+        theoremBorder: "#f56565",
+        proofBg: "#294235",
+        proofBorder: "#68d391",
+        codeBg: "#171923",
+        shadow: "0 2px 4px rgba(0, 0, 0, 0.4)",
       },
       green: {
+        ...this.defaults,
         primary: "#38a169",
         secondary: "#48bb78",
         bg: "#f0fff4",
         card: "#ffffff",
-        radius: "8",
+        defBorder: "#38a169",
       },
       orange: {
+        ...this.defaults,
         primary: "#ed8936",
         secondary: "#f6ad55",
         bg: "#fffaf0",
         card: "#ffffff",
-        radius: "8",
+        defBorder: "#ed8936",
       },
       purple: {
+        ...this.defaults,
         primary: "#805ad5",
         secondary: "#9f7aea",
         bg: "#faf5ff",
         card: "#ffffff",
-        radius: "8",
+        defBorder: "#805ad5",
       },
     };
 
@@ -49,6 +59,7 @@ class StyleConfigurator {
   init() {
     const $ = (id) => document.getElementById(id);
 
+    // Main actions
     $("home").onclick = () => (location.href = "../index/index.html");
     $("reset").onclick = () => this.reset();
     $("save").onclick = () => this.saveConfig();
@@ -56,34 +67,24 @@ class StyleConfigurator {
     $("import").onclick = () => $("file").click();
     $("file").onchange = (e) => this.importConfig(e);
 
-    // Color inputs
-    ["primary", "secondary", "bg", "card"].forEach((color) => {
-      const picker = $(color + "Picker");
-      const input = $(color);
+    // Setup inputs based on config keys
+    Object.keys(this.defaults).forEach((key) => {
+      const input = $(key);
+      if (!input) return;
 
-      picker.oninput = (e) => {
-        input.value = e.target.value;
-        this.config[color] = e.target.value;
-        this.apply();
-      };
-
-      input.oninput = (e) => {
-        if (this.isValidColor(e.target.value)) {
-          picker.value = e.target.value;
-          this.config[color] = e.target.value;
-          this.apply();
+      if (input.type === "color") {
+        // This is a picker, handled by its text input pair
+      } else if (input.type === "range") {
+        this.setupRangeInput(key);
+      } else if (input.type === "text") {
+        const picker = $(key + "Picker");
+        if (picker) {
+          this.setupColorInput(key);
+        } else {
+          this.setupTextInput(key);
         }
-      };
+      }
     });
-
-    // Range input
-    const radius = $("radius");
-    const radiusVal = $("radiusVal");
-    radius.oninput = (e) => {
-      radiusVal.textContent = e.target.value + "px";
-      this.config.radius = e.target.value;
-      this.apply();
-    };
 
     // Presets
     document.querySelectorAll(".preset-btn").forEach((btn) => {
@@ -91,23 +92,45 @@ class StyleConfigurator {
     });
   }
 
-  apply() {
-    const vars = {
-      "--primary-color": this.config.primary,
-      "--secondary-color": this.config.secondary,
-      "--background-color": this.config.bg,
-      "--card-background": this.config.card,
-      "--border-radius": this.config.radius + "px",
-      // Fallback CSS vars for compatibility
-      "--primary": this.config.primary,
-      "--bg": this.config.bg,
-      "--card": this.config.card,
-      "--radius": this.config.radius + "px",
-    };
+  setupColorInput(key) {
+    const picker = document.getElementById(key + "Picker");
+    const input = document.getElementById(key);
 
-    Object.entries(vars).forEach(([prop, val]) => {
-      document.documentElement.style.setProperty(prop, val);
-    });
+    picker.oninput = (e) => {
+      input.value = e.target.value;
+      this.config[key] = e.target.value;
+      this.apply();
+    };
+    input.oninput = (e) => {
+      if (this.isValidColor(e.target.value)) {
+        picker.value = e.target.value;
+        this.config[key] = e.target.value;
+        this.apply();
+      }
+    };
+  }
+
+  setupRangeInput(key) {
+    const input = document.getElementById(key);
+    const valueLabel = document.getElementById(key + "Val");
+    input.oninput = (e) => {
+      const unit = key.toLowerCase().includes("height") ? "" : "px";
+      valueLabel.textContent = e.target.value + unit;
+      this.config[key] = e.target.value;
+      this.apply();
+    };
+  }
+
+  setupTextInput(key) {
+    const input = document.getElementById(key);
+    input.oninput = (e) => {
+      this.config[key] = e.target.value;
+      this.apply();
+    };
+  }
+
+  apply() {
+    StyleManager.applyStyles(this.config);
   }
 
   applyPreset(name) {
@@ -117,7 +140,6 @@ class StyleConfigurator {
       this.updateInputs();
       this.saveConfig();
 
-      // Update active button
       document.querySelectorAll(".preset-btn").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.preset === name);
       });
@@ -127,14 +149,19 @@ class StyleConfigurator {
   updateInputs() {
     Object.entries(this.config).forEach(([key, val]) => {
       const input = document.getElementById(key);
-      const picker = document.getElementById(key + "Picker");
-
-      if (input) input.value = val;
-      if (picker) picker.value = val;
+      if (input) {
+        input.value = val;
+        if (input.type === "range") {
+          const valueLabel = document.getElementById(key + "Val");
+          if (valueLabel) {
+            const unit = key.toLowerCase().includes("height") ? "" : "px";
+            valueLabel.textContent = val + unit;
+          }
+        }
+        const picker = document.getElementById(key + "Picker");
+        if (picker) picker.value = val;
+      }
     });
-
-    document.getElementById("radiusVal").textContent =
-      this.config.radius + "px";
   }
 
   reset() {
@@ -150,10 +177,7 @@ class StyleConfigurator {
   }
 
   load() {
-    const saved = localStorage.getItem("cheatsheet-styles");
-    return saved
-      ? { ...this.defaults, ...JSON.parse(saved) }
-      : { ...this.defaults };
+    return StyleManager.getStyleConfig();
   }
 
   exportConfig() {
@@ -192,39 +216,11 @@ class StyleConfigurator {
 
   isValidColor(color) {
     const s = new Option().style;
-    s.color = "";
     s.color = color;
     return !!s.color;
   }
 }
 
-// Initialize and apply saved styles immediately
 document.addEventListener("DOMContentLoaded", () => {
   new StyleConfigurator();
 });
-
-// Apply saved styles immediately on page load (before DOMContentLoaded)
-(() => {
-  const saved = localStorage.getItem("cheatsheet-styles");
-  if (saved) {
-    try {
-      const config = JSON.parse(saved);
-      const vars = {
-        "--primary-color": config.primary || "#667eea",
-        "--secondary-color": config.secondary || "#764ba2",
-        "--background-color": config.bg || "#f8f9fa",
-        "--card-background": config.card || "#ffffff",
-        "--border-radius": (config.radius || "8") + "px",
-        // Fallback CSS vars
-        "--primary": config.primary || "#667eea",
-        "--bg": config.bg || "#f8f9fa",
-        "--card": config.card || "#ffffff",
-        "--radius": (config.radius || "8") + "px",
-      };
-
-      Object.entries(vars).forEach(([prop, val]) => {
-        document.documentElement.style.setProperty(prop, val);
-      });
-    } catch {}
-  }
-})();

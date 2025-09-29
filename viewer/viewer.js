@@ -2,33 +2,7 @@ class CheatsheetViewer {
   constructor() {
     this.id = new URLSearchParams(location.search).get("id");
     this.sheet = null;
-    this.loadStyles();
     this.init();
-  }
-
-  loadStyles() {
-    const saved = localStorage.getItem("cheatsheet-styles");
-    if (saved) {
-      try {
-        const config = JSON.parse(saved);
-        const vars = {
-          "--primary-color": config.primary || "#667eea",
-          "--secondary-color": config.secondary || "#764ba2",
-          "--background-color": config.bg || "#f8f9fa",
-          "--card-background": config.card || "#ffffff",
-          "--border-radius": (config.radius || "8") + "px",
-          // Fallback CSS vars
-          "--primary": config.primary || "#667eea",
-          "--bg": config.bg || "#f8f9fa",
-          "--card": config.card || "#ffffff",
-          "--radius": (config.radius || "8") + "px",
-        };
-
-        Object.entries(vars).forEach(([prop, val]) => {
-          document.documentElement.style.setProperty(prop, val);
-        });
-      } catch {}
-    }
   }
 
   init() {

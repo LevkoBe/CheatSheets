@@ -2,34 +2,8 @@ class CheatsheetManager {
   constructor() {
     this.sheets = this.load();
     this.editing = null;
-    this.loadStyles();
     this.init();
     this.render();
-  }
-
-  loadStyles() {
-    const saved = localStorage.getItem("cheatsheet-styles");
-    if (saved) {
-      try {
-        const config = JSON.parse(saved);
-        const vars = {
-          "--primary-color": config.primary || "#667eea",
-          "--secondary-color": config.secondary || "#764ba2",
-          "--background-color": config.bg || "#f8f9fa",
-          "--card-background": config.card || "#ffffff",
-          "--border-radius": (config.radius || "8") + "px",
-          // Fallback CSS vars
-          "--primary": config.primary || "#667eea",
-          "--bg": config.bg || "#f8f9fa",
-          "--card": config.card || "#ffffff",
-          "--radius": (config.radius || "8") + "px",
-        };
-
-        Object.entries(vars).forEach(([prop, val]) => {
-          document.documentElement.style.setProperty(prop, val);
-        });
-      } catch {}
-    }
   }
 
   init() {
@@ -143,15 +117,17 @@ class CheatsheetManager {
         (s) => `
       <div class="card">
         <h3>${this.esc(s.title)}</h3>
-        <div>Created: ${new Date(s.created).toLocaleDateString()}</div>
+        <div style="font-size: 0.9rem; color: var(--text-secondary);">
+          Created: ${new Date(s.created).toLocaleDateString()}
+        </div>
         ${
           s.modified !== s.created
-            ? `<div>Modified: ${new Date(
-                s.modified
-              ).toLocaleDateString()}</div>`
+            ? `<div style="font-size: 0.9rem; color: var(--text-secondary);">
+                Modified: ${new Date(s.modified).toLocaleDateString()}
+               </div>`
             : ""
         }
-        <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">
+        <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.9rem;">
           ${this.esc(s.content.split("\n")[0].substring(0, 100) + "...")}
         </p>
         <div class="actions">

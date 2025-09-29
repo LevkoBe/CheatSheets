@@ -1,124 +1,175 @@
+/* All styles are controlled via CSS variables injected by shared/style-manager.js */
+
 .config-container {
-  max-width: 800px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 20px;
+  padding: var(--space-xl);
+  font-family: var(--font-family);
+  background: var(--background-color);
+  color: var(--text-primary);
+  min-height: 100vh;
 }
 
 .config-section {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: var(--card-background);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--radius);
-  padding: 25px;
-  margin-bottom: 25px;
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
   box-shadow: var(--shadow);
 }
 
 .config-section h3 {
-  color: var(--primary);
-  margin-bottom: 20px;
-  font-size: 1.3rem;
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 10px;
+  color: var(--primary-color);
+  margin-bottom: var(--space-xl);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  border-bottom: calc(var(--border-width) * 2) solid var(--border);
+  padding-bottom: var(--space-sm);
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-xl);
 }
+
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 12px;
-  border: 2px solid var(--border);
+  padding: var(--space-md);
+  border: calc(var(--border-width) * 2) solid var(--border);
   border-radius: var(--radius);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background: var(--card-background);
+  color: var(--text-primary);
 }
+
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--primary-color);
 }
 
 .color-input {
   display: flex;
-  gap: 10px;
+  gap: var(--space-sm);
   align-items: center;
 }
+
 .color-input input[type="color"] {
   width: 60px;
   height: 40px;
   border: none;
+  padding: 0;
   cursor: pointer;
+  border-radius: var(--radius);
 }
 
 .range-input {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: var(--space-lg);
 }
+
 .range-value {
-  min-width: 40px;
+  min-width: 60px;
   text-align: center;
-  font-weight: 600;
-  color: var(--primary);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+  font-size: var(--font-size-base);
 }
 
 .preset-buttons {
   display: flex;
-  gap: 10px;
+  gap: var(--space-sm);
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-xl);
 }
 
 .preset-btn {
-  padding: 8px 16px;
-  border: 2px solid var(--border);
-  background: var(--card);
+  padding: var(--space-sm) var(--space-lg);
+  border: calc(var(--border-width) * 2) solid var(--border);
+  background: var(--card-background);
   border-radius: var(--radius);
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
 }
+
 .preset-btn:hover {
-  border-color: var(--primary);
-  background: #f8f9ff;
+  border-color: var(--primary-color);
+  background: var(--def-bg);
 }
+
 .preset-btn.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
+  background: var(--primary-color);
+  color: var(--text-inverse);
+  border-color: var(--primary-color);
 }
 
 .preview-section {
-  background: var(--bg);
-  border: 2px solid var(--border);
+  background: var(--background-color);
+  border: calc(var(--border-width) * 2) solid var(--border);
   border-radius: var(--radius);
-  padding: 20px;
-  margin-top: 20px;
+  padding: var(--space-xl);
+  margin-top: var(--space-xl);
 }
 
 .sample-def {
-  padding: 12px 15px;
-  background: #f8f9ff;
-  border-left: 4px solid var(--primary);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--def-bg);
+  border-left: var(--def-border-width) solid var(--def-border);
   border-radius: 0 var(--radius) var(--radius) 0;
-  margin-bottom: 15px;
+  margin-bottom: var(--space-lg);
 }
 
 .sample-theorem {
-  background: #fff8f8;
-  border: 1px solid #ffb3b3;
+  background: var(--theorem-bg);
+  border: var(--border-width) solid var(--theorem-border);
   border-radius: var(--radius);
-  padding: 15px;
+  padding: var(--space-lg);
+}
+
+.sample-code {
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  margin: var(--space-md) 0;
 }
 
 .action-buttons {
   display: flex;
-  gap: 15px;
+  gap: var(--space-lg);
   justify-content: center;
-  margin-top: 30px;
+  margin-top: var(--space-3xl);
   flex-wrap: wrap;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+  .config-container {
+    padding: var(--space-lg);
+  }
+
+  .config-grid {
+    grid-template-columns: 1fr;
+  }
 }

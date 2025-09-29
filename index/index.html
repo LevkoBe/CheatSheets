@@ -5,33 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cheatsheet Manager</title>
     <link rel="stylesheet" href="index.css" />
-    <script>
-      // Apply saved styles immediately on page load
-      (() => {
-        const saved = localStorage.getItem("cheatsheet-styles");
-        if (saved) {
-          try {
-            const config = JSON.parse(saved);
-            const vars = {
-              "--primary-color": config.primary || "#667eea",
-              "--secondary-color": config.secondary || "#764ba2",
-              "--background-color": config.bg || "#f8f9fa",
-              "--card-background": config.card || "#ffffff",
-              "--border-radius": (config.radius || "8") + "px",
-              // Fallback CSS vars
-              "--primary": config.primary || "#667eea",
-              "--bg": config.bg || "#f8f9fa",
-              "--card": config.card || "#ffffff",
-              "--radius": (config.radius || "8") + "px",
-            };
-
-            Object.entries(vars).forEach(([prop, val]) => {
-              document.documentElement.style.setProperty(prop, val);
-            });
-          } catch {}
-        }
-      })();
-    </script>
+    <script src="../shared/style-manager.js"></script>
   </head>
   <body>
     <div class="container">
